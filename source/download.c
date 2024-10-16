@@ -9,9 +9,11 @@
 #include <stdbool.h>// bool = 1 == true; 0 == false;
 #include <curl/curl.h>
 
-#include "includes/download.h"
-#include "includes/menuCUI.h"
-#include "includes/helper.h"
+#include "download.h"
+#include "menuCUI.h"
+#include "helper.h"
+
+struct a dnld_params;
 
 #define Megabytes_in_Bytes	1048576
 #define Kibibyte_in_Bytes	1024
@@ -206,14 +208,14 @@ static bool	useOldLink(void)
 	printf("\nPress [X] to use old link");
 
 	while(appletMainLoop()) {
-		hidScanInput();
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u64 kDown = padGetButtonsDown(&pad);
 
-		if (kDown & KEY_A) {
+		if (kDown & HidNpadButton_A) {
 			ret = true;
 			break;
 		}
-		if (kDown & KEY_X) {
+		if (kDown & HidNpadButton_X) {
 			ret = false;
 			break;
 		}
@@ -277,8 +279,8 @@ static char	*selectLink(void)
 	// get all links and desc from input.txt
 	if ((nb_links = getLinksInFile("input.txt", &links, &desc)) != -1) {
 		while(appletMainLoop()) {
-			hidScanInput();
-			u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+			padUpdate(&pad);
+			u64 kDown = padGetButtonsDown(&pad);
 
 			printf("\x1b[1;1H%d links counter", n);
 			printf("\x1b[5;1HStart = %s%s%s\n\nURL = %s%s%s", CONSOLE_BLUE, desc[n], CONSOLE_RESET, CONSOLE_GREEN, links[n], CONSOLE_RESET);
@@ -288,25 +290,25 @@ static char	*selectLink(void)
 			printf("\nPress [A] to start download\n");
 			printf("Press [B] to go back\n");
 			
-			if (kDown & KEY_DLEFT) {
+			if (kDown & HidNpadButton_AnyLeft) {
 				consoleClear();
 				n--;
 				if (n < 0) n = nb_links -1; // back to the last entry
 			}
 			
-			if (kDown & KEY_DRIGHT) {
+			if (kDown & HidNpadButton_AnyRight) {
 				consoleClear();
 				n++;
 				if (n >= nb_links) n = 0; // go to the first entry
 			}
 			
-			if (kDown & KEY_B) {
+			if (kDown & HidNpadButton_B) {
 				freeArray(links);
 				freeArray(desc);
 				return ((void *)-1);
 			}
 			
-			if (kDown & KEY_A) {
+			if (kDown & HidNpadButton_A) {
 				url = strdup(links[n]);
 				break;
 			}
@@ -372,10 +374,10 @@ static void	addExtension(char *filename)
 	printf("\n  Press [B] to skip\n");
 
 	while(appletMainLoop()) {
-		hidScanInput();
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u64 kDown = padGetButtonsDown(&pad);
 
-		if (kDown & KEY_A) {
+		if (kDown & HidNpadButton_A) {
 			ext = popKeyboard("Remember to add `.` like `[example].nsp`", 256);
 			if (ext != NULL) {
 				filename = realloc(filename, strlen(filename) + strlen(ext) + 1);
@@ -385,7 +387,7 @@ static void	addExtension(char *filename)
 				break;
 			}
 		}
-		if (kDown & KEY_B) return;
+		if (kDown & HidNpadButton_B) return;
 
 		consoleUpdate(NULL);
 	}
@@ -397,14 +399,14 @@ static bool	warnFileExist(const char *filename)
 	printf("\nPress [A] to overwrite\nPress [B] to go back"); // little warning
 
 	while (appletMainLoop()) {
-		hidScanInput();
-		u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u32 kDown = padGetButtonsDown(&pad);
 
-		if (kDown & KEY_A) {
+		if (kDown & HidNpadButton_A) {
 			break;
 		}
 
-		if (kDown & KEY_B) {
+		if (kDown & HidNpadButton_B) {
 			return (false);
 		}
 

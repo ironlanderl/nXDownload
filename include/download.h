@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef _DOWNLOAD_H_
 #define _DOWNLOAD_H_
 
@@ -28,7 +30,9 @@ struct a {
     FILE        *dnld_stream;
     FILE        *dbg_stream;
     uint64_t    dnld_file_sz;
-} dnld_params;
+};
+
+extern struct a dnld_params;
 
 
 /* Prototypes */

@@ -2,17 +2,22 @@
 #include <stdlib.h>
 #include <switch.h>
 #include <unistd.h>
-#include "includes/download.h"
-#include "includes/menuCUI.h"
-#include "includes/helper.h"
+#include "download.h"
+#include "menuCUI.h"
+#include "helper.h"
 
 #ifdef DEBUG
 #include <sys/socket.h>
 #endif
 
+PadState pad;
+
 int main(void) {
 	consoleInit(NULL);
 	curlInit();
+
+	// Init gamepad
+	padInitializeDefault(&pad);
 
 	// redirect stdio to nxlink
 	#ifdef DEBUG

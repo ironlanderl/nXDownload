@@ -2,9 +2,12 @@
 #include <string.h>
 #include <switch.h>
 #include <stdbool.h>// bool = 1 == true; 0 == false;
-#include "includes/download.h"
-#include "includes/menuCUI.h"
-#include "includes/helper.h"
+#include "download.h"
+#include "menuCUI.h"
+#include "helper.h"
+
+struct V var;
+struct menu initial;
 
 void title(char *str) {
 	var.half = strlen (str) / 2;
@@ -26,11 +29,11 @@ bool functionExit(void) {
 	printf("\npress [-] to continue");
 
 	while(appletMainLoop()) {
-		hidScanInput();
-		u32 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u64 kDown = padGetButtonsDown(&pad);
 		
-		if (kDown & KEY_PLUS) return true;
-		if (kDown & KEY_MINUS) return false;
+		if (kDown & HidNpadButton_Plus) return true;
+		if (kDown & HidNpadButton_Minus) return false;
 		consoleUpdate(NULL);
 	}
 
@@ -79,10 +82,10 @@ bool menu_main(void) {
 		/* Look here for colored text >> https://switchbrew.github.io/libnx/console_8h.html */
 		printf("\x1b[%d;1H%s>%s", select, CONSOLE_CYAN, CONSOLE_RESET);
 		
-		hidScanInput();
-		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
+		padUpdate(&pad);
+		u64 kDown = padGetButtonsDown(&pad);
 		
-		if (kDown & KEY_DUP) {
+		if (kDown & HidNpadButton_AnyUp) {
 			printf("\x1b[%d;1H ", select);
 			select = select - 1;
 			
@@ -92,7 +95,7 @@ bool menu_main(void) {
 			printf("\x1b[%d;1H%s>%s", select, CONSOLE_CYAN, CONSOLE_RESET);
 		}
 		
-		if (kDown & KEY_DDOWN) {
+		if (kDown & HidNpadButton_AnyDown) {
 			printf("\x1b[%d;1H ", select);
 			select = select + 1;
 			
@@ -102,7 +105,7 @@ bool menu_main(void) {
 			printf("\x1b[%d;1H%s>%s", select, CONSOLE_CYAN, CONSOLE_RESET);
 		}
 		
-		if (kDown & KEY_A) {
+		if (kDown & HidNpadButton_A) {
 			if (select == 5) {
 				if (nXDownloadUpdate() == true) { return true;}
 				consoleClear();
@@ -126,7 +129,7 @@ bool menu_main(void) {
 			} else if (select == 10) return true;
 		}
 
-		if (kDown & KEY_PLUS) { return true; }
+		if (kDown & HidNpadButton_Plus) { return true; }
 
 		consoleUpdate(NULL);
 	}
