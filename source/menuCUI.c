@@ -8,6 +8,7 @@
 
 struct V var;
 struct menu initial;
+PadState pad;
 
 void title(char *str) {
 	var.half = strlen (str) / 2;
@@ -73,19 +74,27 @@ bool menu_main(void) {
 	int select = 5;
 	short int bkp_n = initial.n + 5;
 	short int bkp_m = initial.m;
+
+	padInitializeDefault(&pad);
 	
 	while(appletMainLoop()) {
+
+		
 		
 		title("nXDownload v1.1b");
 		menu_options();
 		
 		/* Look here for colored text >> https://switchbrew.github.io/libnx/console_8h.html */
 		printf("\x1b[%d;1H%s>%s", select, CONSOLE_CYAN, CONSOLE_RESET);
+
+		//printf("Pad pointer address: %p\n", &pad);
 		
 		padUpdate(&pad);
 		u64 kDown = padGetButtonsDown(&pad);
+
+		printf("Buttons: %lx\n", kDown);
 		
-		if (kDown & HidNpadButton_AnyUp) {
+		if (kDown & HidNpadButton_Up) {
 			printf("\x1b[%d;1H ", select);
 			select = select - 1;
 			
@@ -95,7 +104,7 @@ bool menu_main(void) {
 			printf("\x1b[%d;1H%s>%s", select, CONSOLE_CYAN, CONSOLE_RESET);
 		}
 		
-		if (kDown & HidNpadButton_AnyDown) {
+		if (kDown & HidNpadButton_Down) {
 			printf("\x1b[%d;1H ", select);
 			select = select + 1;
 			
@@ -131,7 +140,11 @@ bool menu_main(void) {
 
 		if (kDown & HidNpadButton_Plus) { return true; }
 
+		printf("Reached the end of the loop\n");
+
 		consoleUpdate(NULL);
+
+		printf("End of the loop\n");
 	}
 
 	return true;
