@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef _DOWNLOAD_H_
-#define _DOWNLOAD_H_
-
 /* Includes */
 #include <curl/curl.h>
 #include <stdio.h>
@@ -52,5 +49,3 @@ size_t dnld_header_parse(void *hdr, size_t size, size_t nmemb);
 /* this func's is used for auth in case ftp/http requires */
 bool inputUserOrPassword(bool userPass);
 bool downloadFile(const char *url, const char *filename);
-
-#endif

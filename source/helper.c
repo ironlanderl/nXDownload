@@ -227,7 +227,7 @@ void userAppInit(void)
 {
 	void *addr = NULL;
 	if (svcSetHeapSize(&addr, 0x4000000) == (Result)-1)
-		//fatalSimple(0);
+		// fatalSimple(0);
 		printf("Error while allocating heap to: 0x4000000\n");
 }
 

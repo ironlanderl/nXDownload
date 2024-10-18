@@ -69,7 +69,6 @@ int write_to_connection(int conn_fd, char *buffer, int buffer_size);
  */
 int close_connection(int conn_fd);
 
-
 int get_ip_address(char *ip_address, int ip_address_size);
 
 bool get_string_from_remote(char *url);
