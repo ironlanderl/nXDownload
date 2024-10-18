@@ -29,9 +29,9 @@ bool showSimpleMenu()
 {
     printf("Simple Menu\n");
     printf("Press + to exit\n");
-    printf("Press A to FILE_TRANSFER_HTTP_TEMPORALY\n");
-    printf("Press B to FILE_TRANSFER_HTTP(1)\n");
-    printf("Press X to HTTP_SERVER_ASK\n");
+    printf("Press A to start file transfer from keyboard\n");
+    printf("Press B to start file transfer from input.txt\n");
+    printf("Press X to request URL from socket\n");
 
     while (appletMainLoop())
     {
