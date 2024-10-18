@@ -24,9 +24,11 @@ def send_data_to_socket_server(host, port, message: str):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
+    import time
     host = "127.0.0.1"  # Change to the server's IP address if needed
     port = 8180         # Port number
     #message = "https://myrient.erista.me/files/No-Intro/Nintendo%20-%20Game%20Boy/10-Pin%20Bowling%20%28USA%29%20%28Proto%29.zip"  # Message to send
     message = "http://ipv4.download.thinkbroadband.com/1GB.zip"
-    
-    send_data_to_socket_server(host, port, message)
+    while True:
+        send_data_to_socket_server(host, port, message)
+        time.sleep(5)  # Wait for 5 seconds before sending the next message

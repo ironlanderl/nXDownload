@@ -139,7 +139,23 @@ int xferinfo(curl_off_t dltotal, curl_off_t dlnow)
 	}
 	else if (dltotal_Mb > 1)
 	{
-		printf("# DOWNLOAD: %d Mb of %d Mb | %3d Kb/s\r", dlnow_Mb, dltotal_Mb, dlspeed);
+		const int max_width = 20;
+		const int width = (dlnow_Mb * max_width) / dltotal_Mb;
+		int eta = (dltotal_Mb - dlnow_Mb) / (dlspeed); // ETA in seconds
+
+		printf("# DOWNLOAD: [");
+		for (int i = 0; i < width; i++)
+		{
+			printf("#");
+		}
+		for (int i = width; i < max_width; i++)
+		{
+			printf("_");
+		}
+		printf("] %2d%% | %4d Mb of %4d Mb|%4d Kb/s|%4d secs\r", (dlnow_Mb * 100) / dltotal_Mb, dlnow_Mb, dltotal_Mb, dlspeed, eta);
+
+
+		// old printf("# DOWNLOAD: %d Mb of %d Mb | %3d Kb/s\r", dlnow_Mb, dltotal_Mb, dlspeed);
 	}
 
 	if (dlnow == dltotal && dltotal > 0 && once == false)

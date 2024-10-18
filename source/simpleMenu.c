@@ -85,6 +85,8 @@ bool showSimpleMenu()
                 }
 
                 downloadFile(url, filename);
+
+                printf("Download completed\n");
             }
 
             consoleUpdate(NULL);
