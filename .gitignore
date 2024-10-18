@@ -5,6 +5,9 @@ nXDownload.nso
 nXDownload.pfs0
 tags
 build
+out
+
+.vscode
 
 *.o
 *.gch

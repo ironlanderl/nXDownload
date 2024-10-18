@@ -1,19 +1,31 @@
 name: C/C++ CI
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    container: devkitpro/devkita64:latest
     
     steps:
-    - uses: actions/checkout@v1
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - uses: actions/checkout@master
+        with:
+          submodules: recursive
+          
+      - name: Update packages and install Python
+        run: |
+          sudo -n apt-get update
+          sudo -n apt-get upgrade -y
+          sudo -n dkp-pacman --noconfirm -Syu
+
+      - name: Build
+        run: |
+          make -j&{nproc}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: out
+
+
