@@ -17,7 +17,6 @@ jobs:
         run: |
           sudo -n apt-get update
           sudo -n apt-get upgrade -y
-          sudo -n dkp-pacman --noconfirm -Syu
 
       - name: Build
         run: |
