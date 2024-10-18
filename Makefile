@@ -38,10 +38,10 @@ SOURCES		:=	source
 DATA		:=	data
 EXEFS_SRC	:=	exefs_src
 INCLUDES	:=	include
-APP_AUTHOR  :=  Dontwait00, SegFault42
+APP_AUTHOR  :=  Dontwait00, SegFault42, ironlanderl
 APP_TITLE   :=  nXDownload
 ICON        :=  Icon.jpg
-APP_VERSION :=  v1.1b
+APP_VERSION :=  v1.2
 #ROMFS	:=	romfs
 
 #---------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcurl -lz -lnx
+LIBS	:= -lcurl -lmbedtls -lmbedx509 -lmbedcrypto -lz -lnx
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

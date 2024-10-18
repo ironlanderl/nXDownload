@@ -12,28 +12,29 @@
 /* Defines */
 #define TIMETYPE double
 #define TIMEOPT CURLINFO_TOTAL_TIME
-#define MINIMAL_PROGRESS_FUNCTIONALITY_INTERVAL     3
-#define STOP_DOWNLOAD_AFTER_THIS_MANY_BYTES         6000
+#define MINIMAL_PROGRESS_FUNCTIONALITY_INTERVAL 3
+#define STOP_DOWNLOAD_AFTER_THIS_MANY_BYTES 6000
 
-#define USER		0
-#define PASSWORD	1
+#define USER 0
+#define PASSWORD 1
 
 /* Structures */
-struct myprogress {
+struct myprogress
+{
   TIMETYPE lastruntime;
   CURL *curl;
 };
 
-struct a {
-    char        dnld_remote_fname[512];
-    char        dnld_url[512];
-    FILE        *dnld_stream;
-    FILE        *dbg_stream;
-    uint64_t    dnld_file_sz;
+struct a
+{
+  char dnld_remote_fname[512];
+  char dnld_url[512];
+  FILE *dnld_stream;
+  FILE *dbg_stream;
+  uint64_t dnld_file_sz;
 };
 
 extern struct a dnld_params;
-
 
 /* Prototypes */
 
@@ -50,5 +51,6 @@ int older_progress(void *p, double dltotal, double dlnow, double ultotal, double
 size_t dnld_header_parse(void *hdr, size_t size, size_t nmemb);
 /* this func's is used for auth in case ftp/http requires */
 bool inputUserOrPassword(bool userPass);
+bool downloadFile(const char *url, const char *filename);
 
 #endif
